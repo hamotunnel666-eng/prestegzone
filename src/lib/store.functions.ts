@@ -1,4 +1,4 @@
-import { createServerFn, getRequestHeader } from '@tanstack/react-start';
+import { createServerFn } from '@tanstack/react-start';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
@@ -33,6 +33,7 @@ export const createOrder = createServerFn({ method: 'POST' }).inputValidator((in
   if (data.paymentMethod !== 'cod' && !data.proof) throw new Error('يرجى إرفاق صورة التحويل');
   const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
   let userId: string | null = null;
+  const { getRequestHeader } = await import('@tanstack/react-start/server');
   const authorization = getRequestHeader('authorization');
   if (authorization) {
     const bearer = authorization.match(/^Bearer (.+)$/i)?.[1];
