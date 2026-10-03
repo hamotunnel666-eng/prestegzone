@@ -10,7 +10,7 @@ import { PageTitle, StoreShell } from '@/components/store/store-ui';
 const formSchema = z.object({ name: z.string().trim().min(2,'اكتب الاسم بالكامل'), phone: z.string().trim().regex(/^01[0-9]{9}$/,'اكتب رقم موبايل مصري صحيح'), address: z.string().trim().min(8,'اكتب العنوان بالتفصيل'), notes: z.string().max(1000) });
 export const Route = createFileRoute('/checkout')({ head: () => ({ meta: [{ title: 'إتمام الطلب | برستيج الأقصر' }, { name: 'description', content: 'أكمل بيانات الشحن واختر الدفع عند الاستلام أو إنستا باي أو فودافون كاش.' }, { property: 'og:title', content: 'إتمام الطلب | برستيج الأقصر' }, { property: 'og:description', content: 'أكمل طلبك واختر طريقة الدفع المناسبة.' }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }] }), component: Checkout });
 function Checkout() {
-  const { products, cart, clearCart, session } = useStore();
+  const { products, cart, clearCart } = useStore();
   const orderFn = useServerFn(createOrder);
   const [form, setForm] = useState({ name: '', phone: '', address: '', notes: '' });
   const [paymentMethod, setPaymentMethod] = useState<'cod'|'instapay'|'vodafone'>('cod');
@@ -31,7 +31,7 @@ function Checkout() {
     try {
       let encoded: { base64: string; type: 'image/jpeg'|'image/png'|'image/webp' } | undefined;
       if (proof) { const buffer = await proof.arrayBuffer(); const bytes = new Uint8Array(buffer); let binary = ''; for (const byte of bytes) binary += String.fromCharCode(byte); encoded = { base64: btoa(binary), type: proof.type as 'image/jpeg'|'image/png'|'image/webp' }; }
-      const response = await orderFn({ data: { ...result.data, paymentMethod, items: lines.map(x => ({ productId: x.line.id, quantity: x.line.quantity })), proof: encoded, bearer: session?.access_token } });
+      const response = await orderFn({ data: { ...result.data, paymentMethod, items: lines.map(x => ({ productId: x.line.id, quantity: x.line.quantity })), proof: encoded } });
       setSuccess(response.id); clearCart();
     } catch (err) { setError(err instanceof Error ? err.message : 'تعذر إرسال الطلب، حاول مرة أخرى'); } finally { setBusy(false); }
   }

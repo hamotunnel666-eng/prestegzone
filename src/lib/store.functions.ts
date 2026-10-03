@@ -1,4 +1,4 @@
-import { createServerFn } from '@tanstack/react-start';
+import { createServerFn, getRequestHeader } from '@tanstack/react-start';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
@@ -6,7 +6,7 @@ import type { Database } from '@/integrations/supabase/types';
 
 const emailSchema = z.string().trim().email().max(255);
 const itemSchema = z.object({ productId: z.string().uuid(), quantity: z.number().int().min(1).max(99) });
-const orderSchema = z.object({ name: z.string().trim().min(2).max(100), phone: z.string().trim().regex(/^01[0-9]{9}$/), address: z.string().trim().min(8).max(500), notes: z.string().trim().max(1000), paymentMethod: z.enum(['cod','instapay','vodafone']), items: z.array(itemSchema).min(1).max(50), proof: z.object({ base64: z.string().max(9500000), type: z.enum(['image/jpeg','image/png','image/webp']) }).optional(), bearer: z.string().optional() });
+const orderSchema = z.object({ name: z.string().trim().min(2).max(100), phone: z.string().trim().regex(/^01[0-9]{9}$/), address: z.string().trim().min(8).max(500), notes: z.string().trim().max(1000), paymentMethod: z.enum(['cod','instapay','vodafone']), items: z.array(itemSchema).min(1).max(50), proof: z.object({ base64: z.string().max(9500000), type: z.enum(['image/jpeg','image/png','image/webp']) }).optional() });
 
 function publicClient() {
   const key = process.env['SUPABASE_PUBLISHABLE_KEY'];
@@ -33,8 +33,11 @@ export const createOrder = createServerFn({ method: 'POST' }).inputValidator((in
   if (data.paymentMethod !== 'cod' && !data.proof) throw new Error('يرجى إرفاق صورة التحويل');
   const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
   let userId: string | null = null;
-  if (data.bearer) {
-    const { data: auth, error } = await supabaseAdmin.auth.getUser(data.bearer);
+  const authorization = getRequestHeader('authorization');
+  if (authorization) {
+    const bearer = authorization.match(/^Bearer (.+)$/i)?.[1];
+    if (!bearer) throw new Error('جلسة الحساب غير صالحة');
+    const { data: auth, error } = await supabaseAdmin.auth.getUser(bearer);
     if (error || !auth.user) throw new Error('جلسة الحساب غير صالحة');
     userId = auth.user.id;
   }

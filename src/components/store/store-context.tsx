@@ -12,14 +12,16 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartLine[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [session, setSession] = useState<StoreContextValue['session']>(null);
+  const [storageReady, setStorageReady] = useState(false);
   useEffect(() => {
     try { setCart(JSON.parse(localStorage.getItem('prestige-cart') ?? '[]')); setFavorites(JSON.parse(localStorage.getItem('prestige-favorites') ?? '[]')); } catch { /* ignore stale storage */ }
+    setStorageReady(true);
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
     const { data: listener } = supabase.auth.onAuthStateChange((_event, next) => setSession(next));
     return () => listener.subscription.unsubscribe();
   }, []);
-  useEffect(() => { localStorage.setItem('prestige-cart', JSON.stringify(cart)); }, [cart]);
-  useEffect(() => { localStorage.setItem('prestige-favorites', JSON.stringify(favorites)); }, [favorites]);
+  useEffect(() => { if (storageReady) localStorage.setItem('prestige-cart', JSON.stringify(cart)); }, [cart, storageReady]);
+  useEffect(() => { if (storageReady) localStorage.setItem('prestige-favorites', JSON.stringify(favorites)); }, [favorites, storageReady]);
   const addToCart = (id: string, quantity = 1) => setCart(previous => {
     const product = products.find(p => p.id === id);
     if (!product || product.stock < 1) return previous;
