@@ -1,24 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { ArrowLeft, Sparkles, Truck, ShieldCheck, CreditCard } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import hero from '@/assets/beauty-hero.jpg';
+import { categories, useStore } from '@/components/store/store-context';
+import { categoryImages, PageTitle, ProductCard, StoreShell } from '@/components/store/store-ui';
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+export const Route = createFileRoute('/')({ head: () => ({ meta: [{ title: 'برستيج الأقصر | العناية والجمال' }, { name: 'description', content: 'تسوق منتجات العناية بالشعر والجسم والجمال من برستيج الأقصر بأسعار واضحة وطرق دفع مرنة.' }, { property: 'og:title', content: 'برستيج الأقصر | العناية والجمال' }, { property: 'og:description', content: 'منتجات العناية والجمال من برستيج الأقصر.' }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }] }), component: Home });
+function Home() {
+  const { products } = useStore();
+  return <StoreShell><main><section className="relative min-h-[430px] overflow-hidden bg-primary text-primary-foreground md:min-h-[540px]"><img src={hero} alt="تشكيلة من منتجات العناية والعطور" width={1600} height={900} className="absolute inset-0 h-full w-full object-cover object-[40%_center]" /><div className="absolute inset-0 bg-[linear-gradient(270deg,var(--primary)_0%,color-mix(in_oklab,var(--primary)_88%,transparent)_37%,transparent_72%)]" /><div className="relative mx-auto flex min-h-[430px] max-w-7xl items-center px-6 py-12 md:min-h-[540px] lg:px-12"><div className="max-w-lg"><span className="mb-5 inline-flex items-center gap-2 text-xs font-bold text-brand-gold"><Sparkles className="size-4" /> تفاصيل أجمل، كل يوم</span><h1 className="text-4xl font-bold leading-[1.3] sm:text-5xl md:text-6xl">برستيج الأقصر</h1><p className="mt-5 max-w-md text-lg leading-9 text-primary-foreground/85">عنايتك تبدأ من هنا. اختيارات للشعر والبشرة والجمال وكل احتياجات البيت في مكان واحد.</p><Button size="lg" variant="secondary" className="mt-8 h-12 gap-3 px-7 font-bold" asChild><Link to="/shop" search={{ q: '', category: '', favorites: false }}>تسوق الآن <ArrowLeft className="size-4" /></Link></Button></div></div></section>
+  <section className="border-b border-border bg-secondary/40"><div className="mx-auto grid max-w-7xl grid-cols-1 gap-5 px-6 py-5 text-sm sm:grid-cols-3"><div className="flex items-center gap-3"><Truck className="size-5 text-brand-gold" /><span>توصيل حسب عنوانك</span></div><div className="flex items-center gap-3"><ShieldCheck className="size-5 text-brand-gold" /><span>أسعار واضحة بدون مفاجآت</span></div><div className="flex items-center gap-3"><CreditCard className="size-5 text-brand-gold" /><span>الدفع عند الاستلام أو بالتحويل</span></div></div></section>
+  <section className="mx-auto max-w-7xl px-6 py-14"><PageTitle eyebrow="اكتشف مجموعتنا" title="تسوق حسب الفئة" /><div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-5">{categories.map(c => <Link key={c.name} to="/shop" search={{ q: '', category: c.name, favorites: false }} className="group relative aspect-[1.35] overflow-hidden rounded-md bg-secondary"><img src={categoryImages[c.name]} alt={c.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /><div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-primary/90 to-transparent px-4 pb-4 pt-12 text-primary-foreground"><span className="text-base font-bold sm:text-lg">{c.name}</span><span className="block text-xs text-primary-foreground/80">{c.subs.length ? `${c.subs.length} أنواع` : 'تصفح المنتجات'}</span></div></Link>)}</div></section>
+  <section className="bg-secondary/50 py-14"><div className="mx-auto max-w-7xl px-6"><div className="mb-8 flex items-end justify-between gap-4"><PageTitle eyebrow="مختارة لك" title="منتجاتنا" /><Link to="/shop" search={{ q: '', category: '', favorites: false }} className="mb-9 flex shrink-0 items-center gap-2 text-sm font-bold text-primary">عرض الكل <ArrowLeft className="size-4" /></Link></div>{products.length ? <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-5">{products.slice(0,8).map(p => <ProductCard key={p.id} product={p} />)}</div> : <div className="border-t border-border py-12 text-center text-muted-foreground">قريباً: منتجات جديدة تناسب كل احتياجاتك</div>}</div></section></main></StoreShell>;
 }
