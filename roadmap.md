@@ -1,0 +1,5 @@
+- [x] Connect Cloud authentication, catalog, orders, and private storage.
+- [x] Build Arabic storefront, catalog, product detail, favorites, cart, and checkout.
+- [x] Build administrator login, products, orders, statistics, and admin invitations.
+- [x] Verify public storefront, category filters, payment selection, and login/reset screens on desktop and mobile.
+- [ ] Verify authenticated administration and complete a real order once the owner creates and confirms an admin account and adds a product.
