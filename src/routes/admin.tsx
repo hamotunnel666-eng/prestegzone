@@ -11,7 +11,7 @@ import { PageTitle, StoreShell } from '@/components/store/store-ui';
 
 type AdminProduct = Awaited<ReturnType<typeof getAdminData>>['products'][number];
 type ProductForm = { id?: string; name: string; category: string; subcategory: string | null; card_description: string; description: string; image_urls: string[]; price: number; discount_amount: number; discount_until: string | null; stock: number; featured: boolean; active: boolean };
-const empty: ProductForm = { name: '', category: categories[0].name, subcategory: null, card_description: '', description: '', image_urls: [], price: 0, discount_amount: 0, discount_until: null, stock: 0, featured: false, active: true };
+const empty: ProductForm = { name: '', category: categories[0]?.name ?? 'عناية بالشعر', subcategory: null, card_description: '', description: '', image_urls: [], price: 0, discount_amount: 0, discount_until: null, stock: 0, featured: false, active: true };
 const statusLabels: Record<string,string> = { new: 'جديد', confirmed: 'مؤكد', completed: 'مكتمل', cancelled: 'ملغي' };
 const paymentLabels: Record<string,string> = { cod: 'عند الاستلام', instapay: 'إنستا باي', vodafone: 'فودافون كاش' };
 export const Route = createFileRoute('/admin')({ head: () => ({ meta: [{ title: 'لوحة الإدارة | برستيج الأقصر' }, { name: 'description', content: 'إدارة المنتجات والطلبات في متجر برستيج الأقصر.' }, { property: 'og:title', content: 'لوحة الإدارة | برستيج الأقصر' }, { property: 'og:description', content: 'إدارة متجر برستيج الأقصر.' }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary' }] }), component: Admin });
