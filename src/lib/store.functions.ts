@@ -12,7 +12,13 @@ function publicClient() {
   const key = process.env['SUPABASE_PUBLISHABLE_KEY'];
   const url = process.env['SUPABASE_URL'];
   if (!key || !url) throw new Error('Store unavailable');
-  return createClient<Database>(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
+  return createClient<Database>(url, key, { global: { fetch: (input, init) => {
+    const headers = new Headers(input instanceof Request ? input.headers : undefined);
+    new Headers(init?.headers).forEach((value, name) => headers.set(name, value));
+    if (headers.get('Authorization') === `Bearer ${key}` && key.startsWith('sb_publishable_')) headers.delete('Authorization');
+    headers.set('apikey', key);
+    return fetch(input, { ...init, headers });
+  } }, auth: { persistSession: false, autoRefreshToken: false } });
 }
 
 export const getCatalog = createServerFn({ method: 'GET' }).handler(async () => {
@@ -30,7 +36,6 @@ export const getCatalog = createServerFn({ method: 'GET' }).handler(async () => 
 });
 
 export const createOrder = createServerFn({ method: 'POST' }).inputValidator((input) => orderSchema.parse(input)).handler(async ({ data }) => {
-  if (data.paymentMethod !== 'cod' && !data.proof) throw new Error('يرجى إرفاق صورة التحويل');
   const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
   let userId: string | null = null;
   const { getRequestHeader } = await import('@tanstack/react-start/server');
