@@ -7,9 +7,17 @@ import hair from '@/assets/category-hair.jpg';
 import body from '@/assets/category-body.jpg';
 import beauty from '@/assets/category-beauty.jpg';
 import baby from '@/assets/category-baby.jpg';
+import removal from '@/assets/category-removal.jpg';
+import oral from '@/assets/category-oral.jpg';
+import perfume from '@/assets/category-perfume.jpg';
+import paper from '@/assets/category-paper.jpg';
+import spray from '@/assets/category-spray.jpg';
+import insect from '@/assets/category-insect.jpg';
+import air from '@/assets/category-air.jpg';
+import devices from '@/assets/category-devices.jpg';
 import { categories, discountOf, money, priceOf, useStore, type Product } from './store-context';
 
-export const categoryImages: Record<string, string> = { 'عناية بالشعر': hair, 'عناية بالجسم': body, 'عناية بالطفل': baby, 'ميك أب': beauty, 'برفانات': beauty, 'سبريهات': beauty, 'مزيلات شعر': body, 'عناية بالفم': body, 'ورقيات': baby, 'مبيدات حشرية': hair, 'معطرات جو': body, 'متنوعات': hair };
+export const categoryImages: Record<string, string> = { 'عناية بالشعر': hair, 'عناية بالجسم': body, 'عناية بالطفل': baby, 'ميك أب': beauty, 'برفانات': perfume, 'سبريهات': spray, 'مزيلات شعر': removal, 'عناية بالفم': oral, 'ورقيات': paper, 'مبيدات حشرية': insect, 'معطرات جو': air, 'متنوعات': devices };
 export function StoreShell({ children }: { children: ReactNode }) {
   const { cart, favorites, session } = useStore();
   const navigate = useNavigate();
@@ -33,7 +41,7 @@ export function StoreShell({ children }: { children: ReactNode }) {
     </header>
     <nav className="border-b border-border bg-background"><div className="relative mx-auto flex max-w-7xl items-center gap-6 overflow-x-auto px-4 py-3 text-sm lg:px-6"><Button variant="ghost" className="shrink-0 gap-2 font-bold" onClick={() => setAll(!all)}>كل الفئات <ChevronDown className="size-4" /></Button><Link to="/shop" search={{ q: '', category: '', favorites: false }} className="shrink-0 hover:text-brand-gold">كل المنتجات</Link>{categories.slice(0,7).map(c => <Link key={c.name} to="/shop" search={{ q: '', category: c.name, favorites: false }} className="shrink-0 hover:text-brand-gold">{c.name}</Link>)}</div>{(all || menu) && <div className="mx-auto grid max-w-7xl grid-cols-2 gap-1 border-t border-border p-4 sm:grid-cols-3 lg:grid-cols-6">{categories.map(c => <Link key={c.name} to="/shop" search={{ q: '', category: c.name, favorites: false }} onClick={() => { setAll(false); setMenu(false); }} className="rounded-md px-3 py-2 text-sm hover:bg-secondary">{c.name}</Link>)}</div>}</nav>
     {children}
-    <footer className="mt-20 border-t border-border bg-primary text-primary-foreground"><div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 md:grid-cols-3"><div><h3 className="text-xl font-bold">برستيج الأقصر</h3><p className="mt-3 text-sm text-primary-foreground/70">اختيارات للعناية والجمال، من قلب الأقصر.</p></div><div><h4 className="mb-4 font-bold">تسوق</h4><div className="grid gap-2 text-sm text-primary-foreground/70"><Link to="/shop" search={{ q: '', category: '', favorites: false }}>كل المنتجات</Link><Link to="/cart">سلة التسوق</Link></div></div><div><h4 className="mb-4 font-bold">الدفع والتواصل</h4><p className="text-sm leading-7 text-primary-foreground/70">الدفع عند الاستلام أو إنستا باي أو فودافون كاش<br />01063621727<br />تظهر تفاصيل التوصيل قبل تأكيد الطلب.</p><Link to="/admin" className="mt-4 inline-block text-xs text-primary-foreground/60">لوحة الإدارة</Link></div></div><div className="border-t border-primary-foreground/20 py-4 text-center text-xs text-primary-foreground/60">© برستيج الأقصر — PRESTIGE LUXOR</div></footer>
+    <footer className="mt-20 border-t border-border bg-primary text-primary-foreground"><div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 md:grid-cols-3"><div><h3 className="text-xl font-bold">برستيج الأقصر</h3><p className="mt-3 text-sm text-primary-foreground/70">اختيارات للعناية والجمال، من قلب الأقصر.</p></div><div><h4 className="mb-4 font-bold">تسوق</h4><div className="grid gap-2 text-sm text-primary-foreground/70"><Link to="/shop" search={{ q: '', category: '', favorites: false }}>كل المنتجات</Link><Link to="/cart">سلة التسوق</Link></div></div><div><h4 className="mb-4 font-bold">الدفع والتواصل</h4><p className="text-sm leading-7 text-primary-foreground/70">الدفع عند الاستلام أو إنستا باي أو فودافون كاش<br />01063621727<br />تظهر تفاصيل التوصيل قبل تأكيد الطلب.</p></div></div><div className="border-t border-primary-foreground/20 py-4 text-center text-xs text-primary-foreground/60">© برستيج الأقصر — PRESTIGE LUXOR</div></footer>
   </div>;
 }
 export function ProductCard({ product }: { product: Product }) {

@@ -31,7 +31,7 @@ function Account() {
     <PageTitle eyebrow="حسابك" title="حسابي" />
     {session ? <div className="space-y-6">
       <p dir="ltr" className="w-fit text-sm text-muted-foreground">{session.user.email}</p>
-      <div className="flex flex-wrap gap-3"><Button asChild><Link to="/admin">لوحة الإدارة</Link></Button><Button variant="outline" onClick={signOut}>تسجيل الخروج</Button></div>
+      <div className="flex flex-wrap gap-3"><Button variant="outline" onClick={signOut}>تسجيل الخروج</Button></div>
     </div> : <Button asChild><Link to="/auth">تسجيل الدخول</Link></Button>}
   </main></StoreShell>;
 }
