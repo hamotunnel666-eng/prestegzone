@@ -11,10 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as EladlyRouteImport } from './routes/eladly'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
@@ -27,11 +27,6 @@ const IndexRoute = IndexRouteImport.update({
 const AccountRoute = AccountRouteImport.update({
   id: '/account',
   path: '/account',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -47,6 +42,11 @@ const CartRoute = CartRouteImport.update({
 const CheckoutRoute = CheckoutRouteImport.update({
   id: '/checkout',
   path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EladlyRoute = EladlyRouteImport.update({
+  id: '/eladly',
+  path: '/eladly',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -68,10 +68,10 @@ const ProductIdRoute = ProductIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
-  '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
+  '/eladly': typeof EladlyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/shop': typeof ShopRoute
   '/product/$id': typeof ProductIdRoute
@@ -79,10 +79,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
-  '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
+  '/eladly': typeof EladlyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/shop': typeof ShopRoute
   '/product/$id': typeof ProductIdRoute
@@ -91,10 +91,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
-  '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
+  '/eladly': typeof EladlyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/shop': typeof ShopRoute
   '/product/$id': typeof ProductIdRoute
@@ -104,10 +104,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/account'
-    | '/admin'
     | '/auth'
     | '/cart'
     | '/checkout'
+    | '/eladly'
     | '/reset-password'
     | '/shop'
     | '/product/$id'
@@ -115,10 +115,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/account'
-    | '/admin'
     | '/auth'
     | '/cart'
     | '/checkout'
+    | '/eladly'
     | '/reset-password'
     | '/shop'
     | '/product/$id'
@@ -126,10 +126,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/account'
-    | '/admin'
     | '/auth'
     | '/cart'
     | '/checkout'
+    | '/eladly'
     | '/reset-password'
     | '/shop'
     | '/product/$id'
@@ -138,10 +138,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
-  AdminRoute: typeof AdminRoute
   AuthRoute: typeof AuthRoute
   CartRoute: typeof CartRoute
   CheckoutRoute: typeof CheckoutRoute
+  EladlyRoute: typeof EladlyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ShopRoute: typeof ShopRoute
   ProductIdRoute: typeof ProductIdRoute
@@ -163,13 +163,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -189,6 +182,13 @@ declare module '@tanstack/react-router' {
       path: '/checkout'
       fullPath: '/checkout'
       preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/eladly': {
+      id: '/eladly'
+      path: '/eladly'
+      fullPath: '/eladly'
+      preLoaderRoute: typeof EladlyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -218,10 +218,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
-  AdminRoute: AdminRoute,
   AuthRoute: AuthRoute,
   CartRoute: CartRoute,
   CheckoutRoute: CheckoutRoute,
+  EladlyRoute: EladlyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ShopRoute: ShopRoute,
   ProductIdRoute: ProductIdRoute,
