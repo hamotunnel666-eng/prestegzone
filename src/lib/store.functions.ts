@@ -6,7 +6,7 @@ import type { Database } from '@/integrations/supabase/types';
 
 const emailSchema = z.string().trim().email().max(255);
 const itemSchema = z.object({ productId: z.string().uuid(), quantity: z.number().int().min(1).max(99) });
-const orderSchema = z.object({ name: z.string().trim().min(2).max(100), phone: z.string().trim().regex(/^01[0-9]{9}$/), address: z.string().trim().min(8).max(500), notes: z.string().trim().max(1000), paymentMethod: z.enum(['cod','instapay','vodafone']), items: z.array(itemSchema).min(1).max(50), proof: z.object({ base64: z.string().max(9500000), type: z.enum(['image/jpeg','image/png','image/webp']) }).optional() });
+const orderSchema = z.object({ name: z.string().trim().min(2).max(100), phone: z.string().trim().regex(/^01[0-9]{9}$/), address: z.string().trim().min(8).max(500), notes: z.string().trim().max(1000), paymentMethod: z.enum(['cod','instapay','vodafone']), items: z.array(itemSchema).min(1).max(50), proof: z.object({ base64: z.string().min(1).max(9500000), type: z.enum(['image/jpeg','image/png','image/webp']) }).optional() });
 
 function publicClient() {
   const key = process.env['SUPABASE_PUBLISHABLE_KEY'];
