@@ -36,6 +36,7 @@ export const getCatalog = createServerFn({ method: 'GET' }).handler(async () => 
 });
 
 export const createOrder = createServerFn({ method: 'POST' }).inputValidator((input) => orderSchema.parse(input)).handler(async ({ data }) => {
+  if (data.paymentMethod !== 'cod' && !data.proof) throw new Error('صورة إيصال التحويل مطلوبة للدفع الإلكتروني');
   const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
   let userId: string | null = null;
   const { getRequestHeader } = await import('@tanstack/react-start/server');
