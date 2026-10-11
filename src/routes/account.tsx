@@ -7,10 +7,10 @@ import { PageTitle, StoreShell } from '@/components/store/store-ui';
 
 export const Route = createFileRoute('/account')({
   head: () => ({ meta: [
-    { title: 'حسابي | برستيج الأقصر' },
-    { name: 'description', content: 'بيانات الدخول إلى برستيج الأقصر.' },
-    { property: 'og:title', content: 'حسابي | برستيج الأقصر' },
-    { property: 'og:description', content: 'حسابك في برستيج الأقصر.' },
+    { title: 'حسابي | برستيج زون' },
+    { name: 'description', content: 'بيانات الدخول إلى برستيج زون.' },
+    { property: 'og:title', content: 'حسابي | برستيج زون' },
+    { property: 'og:description', content: 'حسابك في برستيج زون.' },
     { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary' },
   ] }),

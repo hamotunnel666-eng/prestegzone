@@ -8,7 +8,7 @@ import { createOrder } from '@/lib/store.functions';
 import { money, priceOf, useStore } from '@/components/store/store-context';
 import { PageTitle, StoreShell } from '@/components/store/store-ui';
 const formSchema = z.object({ name: z.string().trim().min(2,'اكتب الاسم بالكامل'), phone: z.string().trim().regex(/^01[0-9]{9}$/,'اكتب رقم موبايل مصري صحيح'), address: z.string().trim().min(8,'اكتب العنوان بالتفصيل'), notes: z.string().max(1000) });
-export const Route = createFileRoute('/checkout')({ head: () => ({ meta: [{ title: 'إتمام الطلب | برستيج الأقصر' }, { name: 'description', content: 'أكمل بيانات الشحن واختر الدفع عند الاستلام أو إنستا باي أو فودافون كاش.' }, { property: 'og:title', content: 'إتمام الطلب | برستيج الأقصر' }, { property: 'og:description', content: 'أكمل طلبك واختر طريقة الدفع المناسبة.' }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }] }), component: Checkout });
+export const Route = createFileRoute('/checkout')({ head: () => ({ meta: [{ title: 'إتمام الطلب | برستيج زون' }, { name: 'description', content: 'أكمل بيانات الشحن واختر الدفع عند الاستلام أو إنستا باي أو فودافون كاش.' }, { property: 'og:title', content: 'إتمام الطلب | برستيج زون' }, { property: 'og:description', content: 'أكمل طلبك واختر طريقة الدفع المناسبة.' }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }] }), component: Checkout });
 function Checkout() {
   const { products, cart, clearCart } = useStore();
   const orderFn = useServerFn(createOrder);
