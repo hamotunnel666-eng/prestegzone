@@ -2,7 +2,7 @@ import { Link, useNavigate } from '@tanstack/react-router';
 import { Heart, ShoppingBag, Search, Menu, X, UserRound, ChevronDown, ArrowLeft, PackageOpen, Plus } from 'lucide-react';
 import { useState, type ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
-import logo from '@/assets/prestige-luxor-logo.png.asset.json';
+import logoUrl from '@/assets/prestige-zone-logo.jpg';
 import hair from '@/assets/category-hair.jpg';
 import body from '@/assets/category-body.jpg';
 import beauty from '@/assets/category-beauty.jpg';
@@ -29,7 +29,7 @@ export function StoreShell({ children }: { children: ReactNode }) {
     <header className="border-b border-border bg-background">
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 lg:gap-8 lg:px-6">
         <Button variant="ghost" size="icon" className="lg:hidden" aria-label="القائمة" onClick={() => setMenu(!menu)}>{menu ? <X /> : <Menu />}</Button>
-        <Link to="/" className="shrink-0" aria-label="برستيج الأقصر - الرئيسية"><img src={logo.url} alt="برستيج الأقصر" className="h-12 w-36 object-contain object-right sm:h-16 sm:w-48" /></Link>
+        <Link to="/" className="shrink-0" aria-label="برستيج زون - الرئيسية"><img src={logoUrl} alt="برستيج زون" className="h-14 w-14 rounded-md object-cover sm:h-16 sm:w-16" /></Link>
         <form className="mx-auto hidden w-full max-w-xl items-center rounded-md border border-border bg-secondary/40 focus-within:border-brand-gold md:flex" onSubmit={e => { e.preventDefault(); navigate({ to: '/shop', search: { q: search, category: '', favorites: false } }); }}><Search className="mr-4 size-5 text-muted-foreground" /><input className="h-11 min-w-0 flex-1 bg-transparent px-4 text-sm outline-none" placeholder="بتدور على إيه؟" value={search} onChange={e => setSearch(e.target.value)} /><Button type="submit" className="m-1 h-9">ابحث</Button></form>
         <div className="mr-auto flex shrink-0 items-center gap-1 sm:gap-2">
           <Link to="/shop" search={{ q: '', category: '', favorites: true }} className="relative rounded-md p-2 hover:bg-secondary" aria-label="المفضلة"><Heart className="size-5" /><span className="absolute -top-1 -left-1 text-[10px] text-brand-gold">{favorites.length || ''}</span></Link>
@@ -41,7 +41,7 @@ export function StoreShell({ children }: { children: ReactNode }) {
     </header>
     <nav className="border-b border-border bg-background"><div className="relative mx-auto flex max-w-7xl items-center gap-6 overflow-x-auto px-4 py-3 text-sm lg:px-6"><Button variant="ghost" className="shrink-0 gap-2 font-bold" onClick={() => setAll(!all)}>كل الفئات <ChevronDown className="size-4" /></Button><Link to="/shop" search={{ q: '', category: '', favorites: false }} className="shrink-0 hover:text-brand-gold">كل المنتجات</Link>{categories.slice(0,7).map(c => <Link key={c.name} to="/shop" search={{ q: '', category: c.name, favorites: false }} className="shrink-0 hover:text-brand-gold">{c.name}</Link>)}</div>{(all || menu) && <div className="mx-auto grid max-w-7xl grid-cols-2 gap-1 border-t border-border p-4 sm:grid-cols-3 lg:grid-cols-6">{categories.map(c => <Link key={c.name} to="/shop" search={{ q: '', category: c.name, favorites: false }} onClick={() => { setAll(false); setMenu(false); }} className="rounded-md px-3 py-2 text-sm hover:bg-secondary">{c.name}</Link>)}</div>}</nav>
     {children}
-    <footer className="mt-20 border-t border-border bg-primary text-primary-foreground"><div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 md:grid-cols-3"><div><h3 className="text-xl font-bold">برستيج الأقصر</h3><p className="mt-3 text-sm text-primary-foreground/70">اختيارات للعناية والجمال، من قلب الأقصر.</p></div><div><h4 className="mb-4 font-bold">تسوق</h4><div className="grid gap-2 text-sm text-primary-foreground/70"><Link to="/shop" search={{ q: '', category: '', favorites: false }}>كل المنتجات</Link><Link to="/cart">سلة التسوق</Link></div></div><div><h4 className="mb-4 font-bold">الدفع والتواصل</h4><p className="text-sm leading-7 text-primary-foreground/70">الدفع عند الاستلام أو إنستا باي أو فودافون كاش<br />01063621727<br />تظهر تفاصيل التوصيل قبل تأكيد الطلب.</p></div></div><div className="border-t border-primary-foreground/20 py-4 text-center text-xs text-primary-foreground/60">© برستيج الأقصر — PRESTIGE LUXOR</div></footer>
+    <footer className="mt-20 border-t border-border bg-primary text-primary-foreground"><div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 md:grid-cols-3"><div><h3 className="text-xl font-bold">برستيج زون</h3><p className="mt-3 text-sm text-primary-foreground/70">اختيارات للعناية والجمال، قريبة منك وبأسعار مناسبة.</p></div><div><h4 className="mb-4 font-bold">تسوق</h4><div className="grid gap-2 text-sm text-primary-foreground/70"><Link to="/shop" search={{ q: '', category: '', favorites: false }}>كل المنتجات</Link><Link to="/cart">سلة التسوق</Link></div></div><div><h4 className="mb-4 font-bold">الدفع والتواصل</h4><p className="text-sm leading-7 text-primary-foreground/70">الدفع عند الاستلام أو إنستا باي أو فودافون كاش<br />01063621727<br />تظهر تفاصيل التوصيل قبل تأكيد الطلب.</p></div></div><div className="border-t border-primary-foreground/20 py-4 text-center text-xs text-primary-foreground/60">© برستيج زون — PRESTIGE ZONE</div></footer>
   </div>;
 }
 export function ProductCard({ product }: { product: Product }) {

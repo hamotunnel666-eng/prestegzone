@@ -4,7 +4,7 @@ import { Heart, Minus, Plus, ShoppingBag, PackageOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { discountOf, money, priceOf, useStore } from '@/components/store/store-context';
 import { BackShop, StoreShell } from '@/components/store/store-ui';
-export const Route = createFileRoute('/product/$id')({ head: () => ({ meta: [{ title: 'تفاصيل المنتج | برستيج الأقصر' }, { name: 'description', content: 'تفاصيل وأسعار منتجات برستيج الأقصر.' }, { property: 'og:title', content: 'تفاصيل المنتج | برستيج الأقصر' }, { property: 'og:description', content: 'تعرف على تفاصيل المنتج والسعر والمخزون.' }, { property: 'og:type', content: 'product' }, { name: 'twitter:card', content: 'summary_large_image' }] }), component: ProductPage });
+export const Route = createFileRoute('/product/$id')({ head: () => ({ meta: [{ title: 'تفاصيل المنتج | برستيج زون' }, { name: 'description', content: 'تفاصيل وأسعار منتجات برستيج زون.' }, { property: 'og:title', content: 'تفاصيل المنتج | برستيج زون' }, { property: 'og:description', content: 'تعرف على تفاصيل المنتج والسعر والمخزون.' }, { property: 'og:type', content: 'product' }, { name: 'twitter:card', content: 'summary_large_image' }] }), component: ProductPage });
 function ProductPage() {
   const { id } = Route.useParams();
   const { products, loading, addToCart, toggleFavorite, favorites } = useStore();
