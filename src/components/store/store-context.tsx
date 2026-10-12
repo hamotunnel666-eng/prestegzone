@@ -47,13 +47,4 @@ export type { Product };
 export function priceOf(p: Product) { return p.discount_until && new Date(p.discount_until).getTime() > Date.now() ? Math.max(0, p.price - p.discount_amount) : p.price; }
 export function discountOf(p: Product) { return p.price > 0 ? Math.round((1 - priceOf(p) / p.price) * 100) : 0; }
 export const money = (amount: number) => `${Number(amount).toLocaleString('ar-EG')} ج.م`;
-export const categories = [
-  { name: 'عناية بالشعر', subs: ['صبغة','شامبو','بلسم','كريم شعر','جيل','زيت','سيروم','كريم فرد','حمام كريم'] },
-  { name: 'عناية بالجسم', subs: ['شاور جيل','مرطب بشرة','مخمرية','ماسك بشرة','فازلين','كريم تفتيح','بودي سبلاش','لوف حمام'] },
-  { name: 'مزيلات شعر', subs: ['كريم إزالة','سبراي إزالة','سويت','شمع','مناديل شمع','جهاز شمع'] },
-  { name: 'عناية بالفم', subs: ['فرش أسنان','معجون أسنان','مضمضة','معطر فم'] },
-  { name: 'عناية بالطفل', subs: ['حفاضات','ببرونات','سكاتات','برفان أطفال','شامبو','زيت','شاور جيل','بودرة تلك'] },
-  { name: 'ورقيات', subs: ['حفاضات كبار','حفاضات أطفال','فوط نسائية','مناديل','مناديل مطبخ'] },
-  { name: 'برفانات', subs: [] }, { name: 'سبريهات', subs: [] }, { name: 'ميك أب', subs: [] }, { name: 'مبيدات حشرية', subs: [] }, { name: 'معطرات جو', subs: [] },
-  { name: 'متنوعات', subs: ['سشوار','ماكينة حلاقة','مكواة شعر','جهاز شمع'] },
-];
+export { categories } from '@/lib/catalog-categories';
