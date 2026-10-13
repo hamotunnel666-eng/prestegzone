@@ -1,7 +1,9 @@
 import { Link, useNavigate } from '@tanstack/react-router';
-import { Heart, ShoppingCart, Search, UserRound, ArrowLeft, PackageOpen, Plus, Home, LayoutGrid, Phone } from 'lucide-react';
+import { Heart, ShoppingCart, Search, UserRound, ArrowLeft, PackageOpen, Plus, Home, LayoutGrid, Phone, Menu } from 'lucide-react';
 import { useState, type ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { CustomerChat } from './CustomerChat';
 import logoUrl from '@/assets/prestige-zone-logo.jpg';
 import hair from '@/assets/category-hair.jpg';
 import body from '@/assets/category-body.jpg';
@@ -34,6 +36,10 @@ export function StoreShell({ children }: { children: ReactNode }) {
     <div className="bg-sale px-4 py-1.5 text-center text-xs font-bold text-sale-foreground sm:text-sm">🎉 أسعار في متناول الجميع — والدفع عند الاستلام متاح</div>
     <header className="sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-3 py-2.5 sm:px-4 lg:gap-6">
+        <Sheet><SheetTrigger asChild><button type="button" aria-label="قائمة الأقسام" className="grid size-10 shrink-0 place-items-center rounded-xl bg-secondary text-primary md:hidden"><Menu className="size-5" /></button></SheetTrigger>
+          <SheetContent side="right" className="w-[85vw] max-w-sm overflow-y-auto p-0" dir="rtl"><SheetTitle className="bg-primary px-5 py-4 text-lg font-extrabold text-primary-foreground">كل الأقسام</SheetTitle>
+            <div className="grid gap-1 p-3"><Link to="/shop" search={shopAll} className="rounded-xl bg-secondary px-4 py-3 font-bold text-primary">كل المنتجات</Link>{categories.map(c => <details key={c.name} className="group rounded-xl"><summary className="flex cursor-pointer list-none items-center justify-between rounded-xl px-4 py-3 font-bold hover:bg-secondary">{c.name}{c.subs.length > 0 && <span className="text-muted-foreground transition-transform group-open:rotate-180">⌄</span>}</summary><div className="grid gap-1 pr-6 pb-2 text-sm"><Link to="/shop" search={{ ...shopAll, category: c.name }} className="py-1.5 text-primary">كل {c.name}</Link>{c.subs.map(sub => <Link key={sub} to="/shop" search={{ ...shopAll, category: c.name, sub }} className="py-1.5 text-muted-foreground hover:text-primary">{sub}</Link>)}</div></details>)}</div>
+          </SheetContent></Sheet>
         <Link to="/" className="flex shrink-0 items-center gap-2" aria-label="برستيج زون - الرئيسية"><img src={logoUrl} alt="برستيج زون" className="size-11 rounded-xl object-cover sm:size-12" /><span className="hidden text-lg font-extrabold text-primary sm:block">برستيج زون</span></Link>
         <form className="flex min-w-0 flex-1 items-center rounded-full border-2 border-primary/15 bg-secondary focus-within:border-primary" onSubmit={submit}><Search className="mr-3 size-4 shrink-0 text-muted-foreground" /><input className="h-10 min-w-0 flex-1 bg-transparent px-2 text-sm outline-none" placeholder="بتدور على إيه؟" value={search} onChange={e => setSearch(e.target.value)} /><Button type="submit" size="sm" className="m-1 hidden rounded-full px-5 sm:inline-flex">ابحث</Button></form>
         <div className="hidden shrink-0 items-center gap-1 md:flex">
@@ -45,6 +51,7 @@ export function StoreShell({ children }: { children: ReactNode }) {
       <nav className="border-t border-border"><div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-3 py-2 text-sm [scrollbar-width:none] sm:px-4"><Link to="/shop" search={shopAll} className="shrink-0 rounded-full bg-primary px-4 py-1.5 font-bold text-primary-foreground">كل المنتجات</Link>{categories.map(c => <Link key={c.name} to="/shop" search={{ ...shopAll, category: c.name }} className="shrink-0 rounded-full bg-secondary px-4 py-1.5 hover:bg-accent">{c.name}</Link>)}</div></nav>
     </header>
     {children}
+    <CustomerChat />
     <footer className="mt-16 bg-primary text-primary-foreground"><div className="mx-auto grid max-w-7xl gap-8 px-6 py-10 sm:grid-cols-2 md:grid-cols-3"><div className="flex items-start gap-3"><img src={logoUrl} alt="" className="size-14 rounded-xl object-cover" /><div><h3 className="text-lg font-bold">برستيج زون</h3><p className="mt-1 text-sm text-primary-foreground/75">كل احتياجات البيت والعناية بأسعار مناسبة.</p></div></div><div><h4 className="mb-3 font-bold">تسوق</h4><div className="grid gap-2 text-sm text-primary-foreground/75"><Link to="/shop" search={shopAll}>كل المنتجات</Link><Link to="/cart">سلة التسوق</Link></div></div><div><h4 className="mb-3 font-bold">كلمنا</h4><a href="tel:01063621727" dir="ltr" className="inline-flex items-center gap-2 text-lg font-bold"><Phone className="size-4" />01063621727</a><p className="mt-2 text-sm text-primary-foreground/75">كاش عند الاستلام • إنستا باي • فودافون كاش</p></div></div><div className="border-t border-primary-foreground/15 py-4 text-center text-xs text-primary-foreground/60">© برستيج زون</div></footer>
     <nav className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-border bg-card text-[11px] md:hidden">
       <Link to="/" className="flex flex-col items-center gap-0.5 py-2" activeOptions={{ exact: true }} activeProps={{ className: 'text-primary font-bold' }}><Home className="size-5" />الرئيسية</Link>
