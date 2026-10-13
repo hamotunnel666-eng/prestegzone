@@ -4,7 +4,7 @@ import { convertToModelMessages, stepCountIs, streamText, tool, type UIMessage }
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { categories } from '@/lib/catalog-categories';
-import { createLovableAiGatewayRunIdFetch, getLovableAiGatewayRunId, withLovableAiGatewayRunIdHeader } from '@/server/run-id';
+import { createLovableAiGatewayRunIdFetch, getLovableAiGatewayRunId, withLovableAiGatewayRunIdHeader } from '@/lib/ai-run-id.server';
 
 const MODEL = 'openai/gpt-6-luna';
 

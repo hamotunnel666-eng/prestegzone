@@ -162,3 +162,18 @@
     color: var(--color-foreground);
   }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .chat-pop { animation: chat-pop 0.28s cubic-bezier(.2,.9,.3,1.2) both; }
+  .chat-msg { animation: chat-msg 0.3s ease-out both; }
+  .chat-dot { animation: chat-dot 1s ease-in-out infinite; }
+  .chat-launcher { animation: chat-float 3s ease-in-out infinite; }
+}
+@keyframes chat-pop { from { opacity: 0; transform: translateY(16px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes chat-msg { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes chat-dot { 0%,100% { opacity: .3; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-4px); } }
+@keyframes chat-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.chat-md p + p, .chat-md ul, .chat-md ol { margin-top: .5rem; }
+.chat-md ul { list-style: disc; padding-inline-start: 1.25rem; }
+.chat-md ol { list-style: decimal; padding-inline-start: 1.25rem; }
+.chat-md strong { color: var(--color-primary); }
