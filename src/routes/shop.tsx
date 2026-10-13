@@ -1,17 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { z } from 'zod';
-import { useMemo, useState } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 import { categories, useStore } from '@/components/store/store-context';
 import { PageTitle, ProductCard, StoreShell } from '@/components/store/store-ui';
 import { Button } from '@/components/ui/button';
 import { Heart } from 'lucide-react';
-const searchSchema = z.object({ q: z.string().catch(''), category: z.string().catch(''), favorites: z.boolean().catch(false) });
+const searchSchema = z.object({ q: z.string().catch(''), category: z.string().catch(''), favorites: z.boolean().catch(false), sub: z.string().optional().catch(undefined) });
 export const Route = createFileRoute('/shop')({ validateSearch: input => searchSchema.parse(input), head: () => ({ meta: [{ title: 'تسوق المنتجات | برستيج زون' }, { name: 'description', content: 'تصفح فئات الشعر والبشرة والعطور والمكياج ومنتجات العناية في برستيج زون.' }, { property: 'og:title', content: 'تسوق المنتجات | برستيج زون' }, { property: 'og:description', content: 'كل منتجات العناية والجمال في مكان واحد.' }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }] }), component: Shop });
 function Shop() {
-  const { q, category, favorites: favoritesOnly } = Route.useSearch();
+  const { q, category, favorites: favoritesOnly, sub } = Route.useSearch();
   const navigate = Route.useNavigate();
   const { products, favorites, loading } = useStore();
-  const [selectedSub, setSelectedSub] = useState('');
+  const [selectedSub, setSelectedSub] = useState(sub ?? '');
+  useEffect(() => { setSelectedSub(sub ?? ''); }, [sub, category]);
   const subcategories = categories.find(c => c.name === category)?.subs ?? [];
   const subcategory = subcategories.includes(selectedSub) ? selectedSub : '';
   const visible = useMemo(() => products.filter(p => (!category || p.category === category) && (!subcategory || p.subcategory === subcategory) && (!q || `${p.name} ${p.category} ${p.subcategory ?? ''}`.includes(q)) && (!favoritesOnly || favorites.includes(p.id))), [products, category, subcategory, q, favoritesOnly, favorites]);
