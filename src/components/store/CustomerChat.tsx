@@ -4,6 +4,7 @@ import { DefaultChatTransport, type UIMessage } from 'ai';
 import ReactMarkdown from 'react-markdown';
 import { Link } from '@tanstack/react-router';
 import { MessageCircleHeart, Plus, RotateCcw, SendHorizonal, ShoppingCart, X } from 'lucide-react';
+import logoUrl from '@/assets/prestige-zone-logo.jpg';
 import { money, priceOf, useStore } from './store-context';
 
 const STORAGE = 'prestige-assistant-chat';
@@ -81,7 +82,7 @@ export function CustomerChat() {
 
     {open && <section dir="rtl" className="chat-pop fixed inset-0 z-50 flex flex-col overflow-hidden bg-background sm:inset-auto sm:bottom-6 sm:left-6 sm:h-[min(640px,calc(100vh-3rem))] sm:w-[400px] sm:rounded-3xl sm:border sm:border-border sm:shadow-2xl">
       <header className="relative flex items-center gap-3 bg-gradient-to-l from-primary via-primary to-brand-gold px-4 py-3.5 text-primary-foreground">
-        <div className="grid size-11 place-items-center rounded-2xl bg-primary-foreground/15 text-xl font-black ring-2 ring-primary-foreground/30">ز</div>
+        <img src={logoUrl} alt="" className="size-11 rounded-2xl object-cover ring-2 ring-primary-foreground/30" />
         <div className="min-w-0 flex-1"><h2 className="font-extrabold">زيزو • مساعد برستيج زون</h2><p className="flex items-center gap-1.5 text-xs text-primary-foreground/80"><span className="size-2 animate-pulse rounded-full bg-sale" />متاح دلوقتي وبيرد فوراً</p></div>
         <button type="button" onClick={reset} aria-label="محادثة جديدة" className="grid size-9 place-items-center rounded-full hover:bg-primary-foreground/15"><RotateCcw className="size-4" /></button>
         <button type="button" onClick={() => setOpen(false)} aria-label="إغلاق" className="grid size-9 place-items-center rounded-full hover:bg-primary-foreground/15"><X className="size-5" /></button>
