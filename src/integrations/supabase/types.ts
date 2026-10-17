@@ -29,9 +29,34 @@ export type Database = {
         }
         Relationships: []
       }
+      delivery_zones: {
+        Row: {
+          active: boolean
+          created_at: string
+          fee: number
+          id: string
+          name: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          fee?: number
+          id?: string
+          name: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          fee?: number
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           id: string
+          loyalty_eligible: boolean
           order_id: string
           product_id: string
           product_name: string
@@ -40,6 +65,7 @@ export type Database = {
         }
         Insert: {
           id?: string
+          loyalty_eligible?: boolean
           order_id: string
           product_id: string
           product_name: string
@@ -48,6 +74,7 @@ export type Database = {
         }
         Update: {
           id?: string
+          loyalty_eligible?: boolean
           order_id?: string
           product_id?: string
           product_name?: string
@@ -76,40 +103,55 @@ export type Database = {
           address: string
           created_at: string
           customer_name: string
+          delivery_fee: number
           id: string
+          location_url: string | null
+          loyalty_discount: number
           notes: string
           payment_method: string
           payment_proof_path: string | null
           phone: string
           status: string
+          subtotal: number
           total: number
           user_id: string | null
+          zone_name: string | null
         }
         Insert: {
           address: string
           created_at?: string
           customer_name: string
+          delivery_fee?: number
           id?: string
+          location_url?: string | null
+          loyalty_discount?: number
           notes?: string
           payment_method: string
           payment_proof_path?: string | null
           phone: string
           status?: string
+          subtotal?: number
           total: number
           user_id?: string | null
+          zone_name?: string | null
         }
         Update: {
           address?: string
           created_at?: string
           customer_name?: string
+          delivery_fee?: number
           id?: string
+          location_url?: string | null
+          loyalty_discount?: number
           notes?: string
           payment_method?: string
           payment_proof_path?: string | null
           phone?: string
           status?: string
+          subtotal?: number
           total?: number
           user_id?: string | null
+          zone_name?: string | null
         }
         Relationships: []
       }

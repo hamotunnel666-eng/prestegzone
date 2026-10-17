@@ -8,7 +8,7 @@ import logoUrl from '@/assets/prestige-zone-logo.jpg';
 import { money, priceOf, useStore } from './store-context';
 
 const STORAGE = 'prestige-assistant-chat';
-const PHONE = '01063621727';
+const PHONE = '01041610065';
 
 const quick: { label: string; answer?: string; ask?: string }[] = [
   { label: '🔥 أقوى العروض', ask: 'إيه أقوى العروض والخصومات عندكم دلوقتي؟' },
