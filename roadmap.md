@@ -5,3 +5,5 @@
 - [ ] Verify authenticated administration and complete a real order once the owner creates and confirms an admin account and adds a product.
 - [x] Require transfer receipt for electronic payments, show centered add-to-cart feedback, clarify admin order statuses, and show signed-in customers products first with subtle motion.
 - [x] AI customer assistant (catalog search by category, real add-to-cart, quick fixed replies, saved chat) + phone menu
+- [x] Server-only secret admin search, mobile account button + categories button, new payment number, COD last.
+- [x] Delivery zones (admin + checkout total), precise map location, loyalty program (3% / monthly gifts), Telegram order alerts.

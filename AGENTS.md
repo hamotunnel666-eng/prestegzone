@@ -9,3 +9,6 @@
 - The catalog and checkout RPC live in `src/lib/store.functions.ts`, while page interactions use shared store context; this separates trusted pricing from browser state.
 - Payment proofs use a private storage bucket and product photos use signed URLs from a private bucket; workspace policy disallows public buckets.
 - Arabic customer pages and administrator pages use TanStack file routes; this gives each screen a shareable URL.
+- Loyalty math lives in `src/lib/loyalty.ts` (pure, tested) and is recomputed server-side in `createOrder`; the browser total is display-only.
+- Secret admin search keyword is checked only in the `resolveSearch` server function so it never ships in browser code.
+- New-order Telegram alerts are sent from `src/lib/telegram.server.ts` via the Telegram connector; failures are logged, never block the order.
