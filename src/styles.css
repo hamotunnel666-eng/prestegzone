@@ -188,6 +188,32 @@
 .prestige-tour .shepherd-button-secondary { background: var(--secondary); color: var(--primary); }
 .prestige-tour.shepherd-element .shepherd-arrow:before { background: var(--primary); }
 
+@media (max-width: 640px) {
+  .shepherd-element.prestige-tour {
+    position: fixed !important;
+    inset: 50% auto auto 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: calc(100vw - 24px) !important;
+    max-width: 380px !important;
+    max-height: calc(100dvh - 32px) !important;
+    overflow: hidden;
+  }
+  .prestige-tour .shepherd-content {
+    display: flex;
+    max-height: calc(100dvh - 32px);
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .prestige-tour .shepherd-title { overflow-wrap: anywhere; }
+  .prestige-tour .shepherd-text {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    overflow-wrap: anywhere;
+  }
+  .prestige-tour .shepherd-footer { flex: 0 0 auto; flex-wrap: wrap; }
+}
+
 /* Tour lock: block every click on the page except the tour card */
 body.prestige-tour-active * { pointer-events: none !important; }
 body.prestige-tour-active .shepherd-element, body.prestige-tour-active .shepherd-element * { pointer-events: auto !important; }
