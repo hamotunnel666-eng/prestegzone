@@ -56,6 +56,7 @@
         "react-markdown": "^10.1.0",
         "react-resizable-panels": "^4.6.5",
         "recharts": "^2.15.4",
+        "shepherd.js": "^16.0.0",
         "sonner": "^2.0.7",
         "tailwind-merge": "^3.5.0",
         "tailwindcss": "^4.2.1",
@@ -1293,6 +1294,8 @@
     "shebang-regex": ["shebang-regex@3.0.0", "", {}, "sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A=="],
 
     "shell-quote": ["shell-quote@1.10.0", "", {}, "sha512-w1aiOKwKuRgtwAReIIj89puqg+I7GvX4IbLrvmhXbzQsj1+Zwi4VO3+fa6ZF91TWSjIxoEkKnMeHcLEODK5ZXA=="],
+
+    "shepherd.js": ["shepherd.js@16.0.0", "", {}, "sha512-UvOpWdO57KBAKa5WoNsgpTBKDQNcbeSuMrSOrHgbMIhF7V/10t19aBidewUqpLukm9KQDbcAP9zReMvDlAvWlg=="],
 
     "siginfo": ["siginfo@2.0.0", "", {}, "sha512-ybx0WO1/8bSBLEWXZvEd7gMW3Sn3JFlW3TvX1nREbDLRNQNaeNN8WK0meBwPdAaOI7TtRRRJn/Es1zhrrCHu7g=="],
 

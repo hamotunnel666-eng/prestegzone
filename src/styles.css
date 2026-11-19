@@ -177,3 +177,13 @@
 .chat-md ul { list-style: disc; padding-inline-start: 1.25rem; }
 .chat-md ol { list-style: decimal; padding-inline-start: 1.25rem; }
 .chat-md strong { color: var(--color-primary); }
+
+.shepherd-element.prestige-tour { direction: rtl; border-radius: 1rem; max-width: min(22rem, calc(100vw - 2rem)); font-family: inherit; }
+.prestige-tour .shepherd-header { background: var(--primary) !important; padding: 0.75rem 1rem !important; border-radius: 1rem 1rem 0 0; }
+.prestige-tour .shepherd-title { color: var(--primary-foreground); font-weight: 800; font-size: 1rem; }
+.prestige-tour .shepherd-cancel-icon { color: var(--primary-foreground) !important; margin-inline-start: auto; }
+.prestige-tour .shepherd-text { color: var(--foreground); line-height: 1.8; font-size: 0.9rem; }
+.prestige-tour .shepherd-footer { gap: 0.5rem; justify-content: flex-start; }
+.prestige-tour .shepherd-button { background: var(--primary); color: var(--primary-foreground); border-radius: 999px; font-weight: 700; margin: 0; }
+.prestige-tour .shepherd-button-secondary { background: var(--secondary); color: var(--primary); }
+.prestige-tour.shepherd-element .shepherd-arrow:before { background: var(--primary); }

@@ -74,7 +74,7 @@ export function CustomerChat() {
 
   return <>
     {!open && <div className="fixed bottom-20 left-4 z-50 flex items-end gap-2 md:bottom-6 md:left-6">
-      <button type="button" onClick={() => setOpen(true)} aria-label="افتح مساعد برستيج زون" className="chat-launcher relative grid size-16 place-items-center rounded-full bg-gradient-to-br from-primary to-brand-gold text-primary-foreground shadow-2xl transition-transform hover:scale-110">
+      <button type="button" onClick={() => setOpen(true)} aria-label="افتح مساعد برستيج زون" data-tour="chat" className="chat-launcher relative grid size-16 place-items-center rounded-full bg-gradient-to-br from-primary to-brand-gold text-primary-foreground shadow-2xl transition-transform hover:scale-110">
         <MessageCircleHeart className="size-8" /><span className="absolute top-1 right-1 size-3.5 rounded-full border-2 border-card bg-sale" />
       </button>
       {hint && <button type="button" onClick={() => setOpen(true)} className="chat-pop mb-2 hidden rounded-2xl rounded-bl-sm bg-card px-4 py-2 text-sm font-bold shadow-xl sm:block">محتار تختار إيه؟ اسألني 👋</button>}

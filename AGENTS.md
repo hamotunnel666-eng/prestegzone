@@ -12,3 +12,4 @@
 - Loyalty math lives in `src/lib/loyalty.ts` (pure, tested) and is recomputed server-side in `createOrder`; the browser total is display-only.
 - Secret admin search keyword is checked only in the `resolveSearch` server function so it never ships in browser code.
 - New-order Telegram alerts are sent from `src/lib/telegram.server.ts` via the Telegram connector; failures are logged, never block the order.
+- First-visit guided tour uses Shepherd, dynamically imported client-side in `OnboardingTour`, targeting `data-tour` attributes; keeps SSR safe.

@@ -7,3 +7,4 @@
 - [x] AI customer assistant (catalog search by category, real add-to-cart, quick fixed replies, saved chat) + phone menu
 - [x] Server-only secret admin search, mobile account button + categories button, new payment number, COD last.
 - [x] Delivery zones (admin + checkout total), precise map location, loyalty program (3% / monthly gifts), Telegram order alerts.
+- [x] First-visit guided tour (Shepherd).
