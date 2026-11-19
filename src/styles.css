@@ -187,3 +187,7 @@
 .prestige-tour .shepherd-button { background: var(--primary); color: var(--primary-foreground); border-radius: 999px; font-weight: 700; margin: 0; }
 .prestige-tour .shepherd-button-secondary { background: var(--secondary); color: var(--primary); }
 .prestige-tour.shepherd-element .shepherd-arrow:before { background: var(--primary); }
+
+/* Tour lock: block every click on the page except the tour card */
+body.prestige-tour-active * { pointer-events: none !important; }
+body.prestige-tour-active .shepherd-element, body.prestige-tour-active .shepherd-element * { pointer-events: auto !important; }

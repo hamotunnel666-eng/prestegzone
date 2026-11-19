@@ -11,8 +11,9 @@ export function OnboardingTour() {
     const timer = window.setTimeout(async () => {
       const { default: Shepherd } = await import('shepherd.js');
       const visible = (sel: string) => Array.from(document.querySelectorAll<HTMLElement>(`[data-tour="${sel}"]`)).find(el => el.offsetParent !== null || getComputedStyle(el).position === 'fixed');
-      const t = new Shepherd.Tour({ useModalOverlay: true, defaultStepOptions: { cancelIcon: { enabled: true }, classes: 'prestige-tour', scrollTo: { behavior: 'smooth', block: 'center' } } });
-      const finish = () => localStorage.setItem(DONE_KEY, '1');
+      const t = new Shepherd.Tour({ useModalOverlay: true, exitOnEsc: false, keyboardNavigation: false, defaultStepOptions: { canClickTarget: false, cancelIcon: { enabled: false }, classes: 'prestige-tour', scrollTo: { behavior: 'smooth', block: 'center' } } });
+      const finish = () => { localStorage.setItem(DONE_KEY, '1'); document.body.classList.remove('prestige-tour-active'); };
+      t.on('start', () => document.body.classList.add('prestige-tour-active'));
       t.on('complete', finish); t.on('cancel', finish);
       const raw = [
         { id: 'welcome', title: 'أهلاً بيك في برستيج زون 👋', text: 'خلينا ناخد لفة سريعة نعرّفك فيها إزاي تطلب في أقل من دقيقة.' },
@@ -37,7 +38,7 @@ export function OnboardingTour() {
       });
       tour = t; t.start();
     }, 1500);
-    return () => { window.clearTimeout(timer); tour?.cancel(); };
+    return () => { window.clearTimeout(timer); document.body.classList.remove('prestige-tour-active'); tour?.cancel(); };
   }, []);
   return null;
 }
