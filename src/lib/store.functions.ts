@@ -146,6 +146,17 @@ export const getAdminData = createServerFn({ method: 'GET' }).middleware([requir
   return { products: products.data ?? [], orders: orders.data ?? [], admins: admins.data ?? [], zones: (zones.data ?? []).map(z => ({ ...z, fee: Number(z.fee) })) };
 });
 
+export function assertStoreAdmin(allowed: boolean): asserts allowed {
+  if (!allowed) throw new Error('غير مصرح لك بدخول لوحة الإدارة');
+}
+
+export const getAdminAiChatSource = createServerFn({ method: 'GET' }).middleware([requireSupabaseAuth]).handler(async ({ context }) => {
+  const { data: allowed, error } = await context.supabase.rpc('is_store_admin');
+  assertStoreAdmin(!error && allowed === true);
+  const { default: content } = await import('../routes/api/chat.ts?raw');
+  return { content, filename: 'prestige-zone-ai-chat.ts' };
+});
+
 const productSchema = z.object({ id: z.string().uuid().optional(), name: z.string().trim().min(2).max(200), category: z.string().min(2).max(100), subcategory: z.string().max(100).nullable(), card_description: z.string().max(300), description: z.string().max(5000), image_urls: z.array(z.string().max(1000)).max(8), price: z.number().min(0).max(1000000), discount_amount: z.number().min(0).max(1000000), discount_until: z.string().nullable(), stock: z.number().int().min(0), featured: z.boolean(), active: z.boolean() }).refine(p => p.discount_amount <= p.price, 'الخصم لا يمكن أن يتجاوز السعر');
 export const saveProduct = createServerFn({ method: 'POST' }).middleware([requireSupabaseAuth]).inputValidator(input => productSchema.parse(input)).handler(async ({ context, data }) => {
   const { data: allowed } = await context.supabase.rpc('is_store_admin');
