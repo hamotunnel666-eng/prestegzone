@@ -20,9 +20,10 @@ import spray from '@/assets/category-spray.jpg';
 import insect from '@/assets/category-insect.jpg';
 import air from '@/assets/category-air.jpg';
 import devices from '@/assets/category-devices.jpg';
+import homeAppliances from '@/assets/category-home-appliances.webp';
 import { categories, discountOf, money, priceOf, useStore, type Product } from './store-context';
 
-export const categoryImages: Record<string, string> = { 'عناية بالشعر': hair, 'عناية بالجسم': body, 'عناية بالطفل': baby, 'ميك أب': beauty, 'برفانات': perfume, 'سبريهات': spray, 'مزيلات شعر': removal, 'عناية بالفم': oral, 'ورقيات': paper, 'مبيدات حشرية': insect, 'معطرات جو': air, 'متنوعات': devices };
+export const categoryImages: Record<string, string> = { 'عناية بالشعر': hair, 'عناية بالجسم': body, 'عناية بالطفل': baby, 'ميك أب': beauty, 'برفانات': perfume, 'سبريهات': spray, 'مزيلات شعر': removal, 'عناية بالفم': oral, 'ورقيات': paper, 'مبيدات حشرية': insect, 'معطرات جو': air, 'متنوعات': devices, 'الأجهزة المنزلية': homeAppliances };
 const shopAll = { q: '', category: '', favorites: false };
 
 export function CategoryStrip() {

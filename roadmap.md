@@ -8,3 +8,4 @@
 - [x] Server-only secret admin search, mobile account button + categories button, new payment number, COD last.
 - [x] Delivery zones (admin + checkout total), precise map location, loyalty program (3% / monthly gifts), Telegram order alerts.
 - [x] First-visit guided tour (Shepherd).
+- [ ] Add Google image-link import for admins, WebP compression under 500 KB, and the home-appliances category; test the two supplied links.

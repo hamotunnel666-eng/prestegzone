@@ -13,3 +13,4 @@
 - Secret admin search keyword is checked only in the `resolveSearch` server function so it never ships in browser code.
 - New-order Telegram alerts are sent from `src/lib/telegram.server.ts` via the Telegram connector; failures are logged, never block the order.
 - First-visit guided tour uses Shepherd, dynamically imported client-side in `OnboardingTour`, targeting `data-tour` attributes; keeps SSR safe.
+- Product image links are fetched only in the admin-authenticated server function; browser-side WebP conversion is shared by URL imports and local uploads to enforce the 500 KB cap.

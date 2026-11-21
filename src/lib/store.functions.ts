@@ -157,6 +157,99 @@ export const getAdminAiChatSource = createServerFn({ method: 'GET' }).middleware
   return { content, filename: 'prestige-zone-ai-chat.ts' };
 });
 
+const MAX_IMPORTED_IMAGE_BYTES = 8 * 1024 * 1024;
+const allowedImportedImageTypes = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/gif', 'image/bmp']);
+
+export function isAllowedProductImageUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    const host = url.hostname.toLowerCase().replace(/\.$/, '');
+    const googleImageHost = host === 'gstatic.com' || host.endsWith('.gstatic.com') || host === 'googleusercontent.com' || host.endsWith('.googleusercontent.com');
+    return url.protocol === 'https:' && !url.username && !url.password && !url.port && googleImageHost;
+  } catch {
+    return false;
+  }
+}
+
+async function downloadGoogleProductImage(source: string) {
+  let currentUrl = new URL(source);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 20_000);
+
+  try {
+    let response: Response | null = null;
+    for (let redirectCount = 0; redirectCount <= 3; redirectCount += 1) {
+      if (!isAllowedProductImageUrl(currentUrl.toString())) throw new Error('رابط الصورة غير مدعوم');
+      response = await fetch(currentUrl, {
+        redirect: 'manual',
+        signal: controller.signal,
+        headers: { Accept: 'image/avif,image/webp,image/*' },
+      });
+      if ([301, 302, 303, 307, 308].includes(response.status)) {
+        const location = response.headers.get('location');
+        await response.body?.cancel();
+        if (!location || redirectCount === 3) throw new Error('تعذر فتح رابط الصورة');
+        currentUrl = new URL(location, currentUrl);
+        continue;
+      }
+      break;
+    }
+
+    if (!response?.ok) throw new Error('تعذر تحميل الصورة من الرابط');
+    const contentType = response.headers.get('content-type')?.split(';')[0]?.trim().toLowerCase() ?? '';
+    if (!allowedImportedImageTypes.has(contentType)) throw new Error('الرابط لا يحتوي على صورة مدعومة');
+    const declaredSize = Number(response.headers.get('content-length') ?? 0);
+    if (declaredSize > MAX_IMPORTED_IMAGE_BYTES) throw new Error('حجم الصورة الأصلية أكبر من 8 ميجابايت');
+    const reader = response.body?.getReader();
+    if (!reader) throw new Error('تعذر قراءة الصورة');
+
+    const chunks: Uint8Array[] = [];
+    let totalSize = 0;
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalSize += value.byteLength;
+      if (totalSize > MAX_IMPORTED_IMAGE_BYTES) {
+        await reader.cancel();
+        throw new Error('حجم الصورة الأصلية أكبر من 8 ميجابايت');
+      }
+      chunks.push(value);
+    }
+    if (totalSize === 0) throw new Error('الصورة فارغة');
+    const bytes = new Uint8Array(totalSize);
+    let offset = 0;
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    return { bytes, contentType };
+  } catch (error) {
+    if (error instanceof Error && ['رابط الصورة غير مدعوم', 'تعذر فتح رابط الصورة', 'تعذر تحميل الصورة من الرابط', 'الرابط لا يحتوي على صورة مدعومة', 'حجم الصورة الأصلية أكبر من 8 ميجابايت', 'تعذر قراءة الصورة', 'الصورة فارغة'].includes(error.message)) throw error;
+    if (controller.signal.aborted) throw new Error('انتهى وقت تحميل الصورة، حاول مرة أخرى');
+    throw new Error('تعذر تحميل الصورة من الرابط');
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+function imageBytesToBase64(bytes: Uint8Array): string {
+  let binary = '';
+  for (let offset = 0; offset < bytes.length; offset += 0x8000) {
+    binary += String.fromCharCode(...bytes.subarray(offset, offset + 0x8000));
+  }
+  return btoa(binary);
+}
+
+export const importProductImageSource = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(input => z.object({ url: z.string().trim().min(1).max(2048).url().refine(isAllowedProductImageUrl, 'استخدم رابط صورة مباشر من Google') }).parse(input))
+  .handler(async ({ context, data }) => {
+    const { data: allowed, error } = await context.supabase.rpc('is_store_admin');
+    assertStoreAdmin(!error && allowed === true);
+    const image = await downloadGoogleProductImage(data.url);
+    return { base64: imageBytesToBase64(image.bytes), contentType: image.contentType };
+  });
+
 const productSchema = z.object({ id: z.string().uuid().optional(), name: z.string().trim().min(2).max(200), category: z.string().min(2).max(100), subcategory: z.string().max(100).nullable(), card_description: z.string().max(300), description: z.string().max(5000), image_urls: z.array(z.string().max(1000)).max(8), price: z.number().min(0).max(1000000), discount_amount: z.number().min(0).max(1000000), discount_until: z.string().nullable(), stock: z.number().int().min(0), featured: z.boolean(), active: z.boolean() }).refine(p => p.discount_amount <= p.price, 'الخصم لا يمكن أن يتجاوز السعر');
 export const saveProduct = createServerFn({ method: 'POST' }).middleware([requireSupabaseAuth]).inputValidator(input => productSchema.parse(input)).handler(async ({ context, data }) => {
   const { data: allowed } = await context.supabase.rpc('is_store_admin');
